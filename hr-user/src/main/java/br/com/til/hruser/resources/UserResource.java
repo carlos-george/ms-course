@@ -29,7 +29,7 @@ public class UserResource {
 	@GetMapping(value="/search")
 	public ResponseEntity<User> findByEmail(@RequestParam String email) {
 		
-		User user = userRepo.findByEmail(email).get();
+		User user = userRepo.findByEmail(email);
 		
 		return ResponseEntity.ok(user);
 	}
