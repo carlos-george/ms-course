@@ -15,24 +15,24 @@ import br.com.til.hrpayroll.services.PaymentService;
 @RestController
 @RequestMapping(value="/payments")
 public class PaymentResource {
-	
+
 	@Autowired
 	private PaymentService paymentService;
-	
+
 	@HystrixCommand(fallbackMethod="getPaymentFallBackAlternative")
 	@GetMapping(value="/{workerId}/days/{days}")
 	public ResponseEntity<Payment> getPayment(@PathVariable() Long workerId,@PathVariable Integer days) {
-		
+
 		Payment payment = paymentService.getPayment(workerId, days);
 
 		return ResponseEntity.ok(payment);
 	}
 
 	public ResponseEntity<Payment> getPaymentFallBackAlternative(Long workerId, Integer days) {
-		
+
 		Payment payment = new Payment("Naruto", 250.0, days);
-		
+
 		return ResponseEntity.ok(payment);
 	}
-	
+
 }
