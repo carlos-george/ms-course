@@ -1,19 +1,12 @@
-package br.com.til.hroauth.config;
+package br.com.til.hrapigatewayzuul.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
 public class AppConfig {
-
-	
-	@Bean
-	public BCryptPasswordEncoder bcryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 	
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
@@ -30,4 +23,5 @@ public class AppConfig {
 		
 		return new JwtTokenStore(accessTokenConverter());
 	}
+
 }
