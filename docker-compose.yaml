@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  hr-worker-db:
+    image: postgres
+    environment:
+      POSTGRES_DB: "db_hr_worker"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234567"
+    ports:
+      - "5432:5432"
+    volumes:
+      - my_dbdata_hr_worker:/var/lib/postgresql/data
+    networks:
+      - hr-net
+
+  hr-user-db:
+    image: postgres
+    environment:
+      POSTGRES_DB: "db_hr_user"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "1234567"
+    ports:
+      - "5433:5432"
+    volumes:
+      - my_dbdata_hr_user:/var/lib/postgresql/data
+    networks:
+      - hr-net
+
+  db-pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "bolinha@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "6543:80"
+    depends_on:
+      - hr-user-db
+      - hr-worker-db
+    networks:
+      - hr-net
+
+networks:
+  hr-net:
+    driver: bridge
+volumes:
+  my_dbdata_hr_worker:
+  my_dbdata_hr_user:
