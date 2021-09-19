@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - my_dbdata_hr_worker:/var/lib/postgresql/data
+      - ./data/hr-worker:/var/lib/postgresql/data
     networks:
       - hr-net
 
@@ -23,7 +23,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - my_dbdata_hr_user:/var/lib/postgresql/data
+      - ./data/hr-user:/var/lib/postgresql/data
     networks:
       - hr-net
 
@@ -43,6 +43,3 @@ services:
 networks:
   hr-net:
     driver: bridge
-volumes:
-  my_dbdata_hr_worker:
-  my_dbdata_hr_user:
