@@ -40,6 +40,16 @@ services:
     networks:
       - hr-net
 
+  hr-config-server:
+    build: ./hr-config-server/
+    ports:
+      - "8888:8888"
+    environment:
+      GITHUB_PASS: "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"
+      GITHUB_USER: "carlos-george"
+    networks:
+      - hr-net
+
 networks:
   hr-net:
     driver: bridge
