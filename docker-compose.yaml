@@ -45,8 +45,8 @@ services:
     ports:
       - "8888:8888"
     environment:
-      GITHUB_PASS: "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"
-      GITHUB_USER: "carlos-george"
+      GITHUB_PASS: ${GITHUB_PASS}
+      GITHUB_USER: ${GITHUB_USER}
     networks:
       - hr-net
 
@@ -59,13 +59,57 @@ services:
     depends_on:
       - hr-config-server
 
-  hr-worker-server:
+  hr-api-gateway-zuul:
+    build: ./hr-api-gateway-zuul/
+    ports:
+      - "8765:8765"
+    networks:
+      - hr-net
+    environment:
+      jwt.secret: "MY-JWT--SECRET"
+    links:
+      - hr-config-server
+      - hr-eureka-server
+
+  hr-oauth:
+    build: ./hr-oauth/
+    networks:
+      - hr-net
+    environment:
+      jwt.secret: "MY-JWT--SECRET"
+      oauth.client.name: "myappname123"
+      oauth.client.secret: "myappsecret123"
+    links:
+      - hr-config-server
+      - hr-eureka-server
+      - hr-api-gateway-zuul
+
+  hr-worker:
     build: ./hr-worker/
     networks:
       - hr-net
     links:
       - hr-config-server
       - hr-eureka-server
+      - hr-api-gateway-zuul
+
+  hr-user:
+    build: ./hr-user/
+    networks:
+      - hr-net
+    links:
+      - hr-config-server
+      - hr-eureka-server
+      - hr-api-gateway-zuul
+
+  hr-payroll:
+    build: ./hr-payroll/
+    networks:
+      - hr-net
+    links:
+      - hr-config-server
+      - hr-eureka-server
+      - hr-api-gateway-zuul
 
 networks:
   hr-net:
