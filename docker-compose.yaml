@@ -50,6 +50,23 @@ services:
     networks:
       - hr-net
 
+  hr-eureka-server:
+    build: ./hr-eureka-server/
+    ports:
+      - "8761:8761"
+    networks:
+      - hr-net
+    depends_on:
+      - hr-config-server
+
+  hr-worker-server:
+    build: ./hr-worker/
+    networks:
+      - hr-net
+    links:
+      - hr-config-server
+      - hr-eureka-server
+
 networks:
   hr-net:
     driver: bridge
