@@ -40,7 +40,7 @@ services:
     networks:
       - hr-net
     volumes:
-      - .data/db-pgadmin:/var/lib/pgadmin
+      - ./data/db-pgadmin:/var/lib/pgadmin
 
   hr-config-server:
     build: ./hr-config-server/
